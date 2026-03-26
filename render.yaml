@@ -1,0 +1,13 @@
+# Render Blueprint: deploy the FastAPI API (free tier).
+# In Render dashboard: New → Blueprint → connect repo with this file.
+# After deploy, copy the service URL (https://your-service.onrender.com) into Streamlit Cloud secrets as CAIT_API_URL.
+
+services:
+  - type: web
+    name: cait-api
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
