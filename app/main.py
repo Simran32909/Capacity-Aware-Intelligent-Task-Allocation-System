@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 from app.database import Base, engine
 from app import models  # noqa: F401 — register models with metadata
@@ -39,6 +40,12 @@ app.include_router(users.router)
 app.include_router(tasks.router)
 app.include_router(dashboard.router)
 app.include_router(reset.router)
+
+
+@app.get("/")
+def root():
+    """Root URL: browsers opening the Render link go to interactive API docs."""
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/health")
